@@ -24,6 +24,7 @@
   {% for child in childs | sort %}
 <details class="collection-node">
   <summary>{{ child }}</summary>
+  {% assign cur = include.cur %}
   {% if cur == "" %}
     {% assign childcur = child %}
   {% else %}

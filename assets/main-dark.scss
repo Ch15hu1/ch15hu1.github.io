@@ -54,3 +54,24 @@
 .collection-node ul {
   margin-left: 2.5em;
 }
+
+.collection-group > ul {
+  margin-left: 1.5em;
+}
+
+.latest-posts {
+  margin-left: 2em;
+}
+
+.latest-posts td {
+  padding-right: 1.5em;
+}
+
+.latest-posts td:last-child {
+  padding-right: 0;
+}
+
+.latest-posts .meta {
+  font-size: 0.85em;
+  color: #888;
+}

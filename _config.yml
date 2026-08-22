@@ -33,6 +33,9 @@ style: dark
 plugins:
   - jekyll-feed
 
+# 不展示未到发布时间的文章
+future: false
+
 header_pages:
   - home.markdown
   - collections.markdown
