@@ -1,0 +1,65 @@
+{% assign col = include.col %}
+{% assign cur = include.cur %}
+{% assign base = "_" | append: col.label %}
+{% if cur == "" %}
+  {% assign curslash = base | append: "/" %}
+{% else %}
+  {% assign curslash = base | append: "/" | append: cur | append: "/" %}
+{% endif %}
+
+{% assign childs = "" | split: "," %}
+{% for doc in col.docs %}
+  {% if doc.path contains curslash %}
+    {% assign remainder = doc.path | remove: curslash %}
+    {% if remainder contains "/" %}
+      {% assign subdir = remainder | split: "/" | first %}
+      {% unless childs contains subdir %}
+        {% assign childs = childs | push: subdir %}
+      {% endunless %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
+{% if childs.size > 0 %}
+  {% for child in childs | sort %}
+<details class="collection-node">
+  <summary>{{ child }}</summary>
+  {% if cur == "" %}
+    {% assign childcur = child %}
+  {% else %}
+    {% assign childcur = cur | append: "/" | append: child %}
+  {% endif %}
+  {% include collection-tree.html col=col cur=childcur %}
+</details>
+  {% endfor %}
+{% endif %}
+
+{% assign col = include.col %}
+{% assign cur = include.cur %}
+{% assign base = "_" | append: col.label %}
+{% if cur == "" %}
+  {% assign curslash = base | append: "/" %}
+{% else %}
+  {% assign curslash = base | append: "/" | append: cur | append: "/" %}
+{% endif %}
+{% assign posts_count = 0 %}
+{% for doc in col.docs %}
+  {% if doc.path contains curslash %}
+    {% assign remainder = doc.path | remove: curslash %}
+    {% unless remainder contains "/" %}
+      {% assign posts_count = posts_count | plus: 1 %}
+    {% endunless %}
+  {% endif %}
+{% endfor %}
+{% if posts_count > 0 %}
+<ul>
+  {% for doc in col.docs %}
+    {% if doc.path contains curslash %}
+      {% assign remainder = doc.path | remove: curslash %}
+      {% unless remainder contains "/" %}
+  <li><a href="{{ doc.url }}">{{ doc.title }}</a></li>
+      {% endunless %}
+    {% endif %}
+  {% endfor %}
+</ul>
+{% endif %}

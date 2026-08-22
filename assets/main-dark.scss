@@ -1,0 +1,56 @@
+--- 
+# Only the main Sass file needs front matter (the dashes are enough) 
+--- 
+
+// Use @import for compatibility with GitHub Pages (libsass)
+@import "dark";
+@import "base";
+
+@include theme();
+
+.menu ul {
+  display: flex;
+}
+
+.menu ul li:first-child {
+  margin-left: 0;
+}
+
+.menu ul li.nav-right {
+  margin-left: auto;
+}
+
+.collection-group summary,
+.collection-node summary {
+  list-style: none;
+  cursor: pointer;
+  user-select: none;
+}
+
+.collection-group summary::-webkit-details-marker,
+.collection-node summary::-webkit-details-marker {
+  display: none;
+}
+
+.collection-group summary h2 {
+  display: inline;
+  margin: 0;
+}
+
+.collection-group summary::before,
+.collection-node summary::before {
+  content: "[+] ";
+}
+
+.collection-group[open]>summary::before,
+.collection-node[open]>summary::before {
+  content: "[-] ";
+}
+
+.collection-node {
+  margin-left: 1.5em;
+}
+
+.collection-node ul {
+  margin-left: 2.5em;
+}
