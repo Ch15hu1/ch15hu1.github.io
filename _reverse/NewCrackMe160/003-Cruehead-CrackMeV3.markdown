@@ -21,15 +21,13 @@ categories: NewCrackMe160
 通过这个发现了一个文字，这个难度应该和 abexcm5 差不多
 ![](https://ch15hu1.github.io/images/748A1AE4D7F3522CA00E4BBA7A0002C4.png)
 
-1. 4020F9 变量是一个 DWORD，用来存放 key
-2. 加密方法的过程中会改变 key，并且方法运行后 key 还要在 xor 12345678 一遍
-3. 最后读取文件前18个字符的后4个字符和key做对比。如果一样就 Win 了。
+1、4020F9 变量是一个 DWORD，用来存放 key
+2、加密方法的过程中会改变 key，并且方法运行后 key 还要在 xor 12345678 一遍
+3、最后读取文件前18个字符的后4个字符和key做对比。如果一样就 Win 了。
 ![](https://ch15hu1.github.io/images/A42907B4D2366CBA1E3C47E1D23CB69A.png)
-
 
 加密方法怎么做的，贴张图自己和注册机的 `Encryption(char *pass)` 对着看吧。
 ![](https://ch15hu1.github.io/images/67D226D2E0E7D5BC5F19CEF408798F26.png)
-
 
 ## 注册机
 ```cpp
