@@ -5,5 +5,6 @@ date: 2026-08-21 21:51:42 +0800
 categories: NewCrackMe160
 ---
 
+## 001 - 介绍
 资源全部语来自[艮艮为山](https://www.bilibili.com/video/BV1XL4y1H766?spm_id_from=333.788.videopod.sections&vd_source=70bd7fd9b219df2185c83b3dc2402965){:target="_blank"}这位老师，他有更好的视频解析。
 

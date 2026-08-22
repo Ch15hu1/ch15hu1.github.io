@@ -1,8 +1,10 @@
 ---
 layout: page
-title: "Collection"
+title: Collection
 permalink: /collection/
 ---
+
+## Collection
 {% for col in site.collections %}
   {% unless col.label == "posts" %}
 <details class="collection-group">
