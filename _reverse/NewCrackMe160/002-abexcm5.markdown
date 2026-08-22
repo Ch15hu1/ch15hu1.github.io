@@ -13,26 +13,26 @@ categories: NewCrackMe160
 
 ## 查壳
 没有壳，汇编编写的程序，32bit
-![查壳](https://ch15hu1.github.io/images/648EE734661E81B283B91DB3A8029994.png)
+![](https://ch15hu1.github.io/images/648EE734661E81B283B91DB3A8029994.png)
 
 ## 界面
-![界面](https://ch15hu1.github.io/images/5C73CA07AB574F97DC7962226BC2365D.png)
+![](https://ch15hu1.github.io/images/5C73CA07AB574F97DC7962226BC2365D.png)
 
 ## 开逆
 点击 Check 后出现 Error
-![界面](https://ch15hu1.github.io/images/50BCA601FA2029CAB908B3239306A8FB.png)
+![](https://ch15hu1.github.io/images/50BCA601FA2029CAB908B3239306A8FB.png)
 
 搜索字符串
-![界面](https://ch15hu1.github.io/images/EE611B8DAEDA4AFEC0AFF4BA197DDC51.png)
+![](https://ch15hu1.github.io/images/EE611B8DAEDA4AFEC0AFF4BA197DDC51.png)
 
 找到了这个
-![界面](https://ch15hu1.github.io/images/2766D1E990D5530F64D0493007BAFD52.png)
+![](https://ch15hu1.github.io/images/2766D1E990D5530F64D0493007BAFD52.png)
 
 这一块是主函数区
-![界面](https://ch15hu1.github.io/images/8EE2B534A211C7FE690F20E82FD31197.png)
+![](https://ch15hu1.github.io/images/8EE2B534A211C7FE690F20E82FD31197.png)
 
 这是 DialogProc 回调函数
-![界面](https://ch15hu1.github.io/images/EB992065A723A764EF3AE79DBF5F2BC9.png)
+![](https://ch15hu1.github.io/images/EB992065A723A764EF3AE79DBF5F2BC9.png)
 
 ## 源码
 ```cpp
