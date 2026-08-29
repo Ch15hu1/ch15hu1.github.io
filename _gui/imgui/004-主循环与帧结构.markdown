@@ -1,0 +1,78 @@
+---
+layout: post
+title:  "004 - 主循环与帧结构"
+date: 2026-08-29 19:56:16 +0800
+categories: IMGUI
+---
+
+## 1 - 图片
+就按照重要的说，dx11 和 win32 就不说了。
+
+1、消息处理
+![](https://ch15hu1.github.io/images/7CF9EB552EFAF39912DE2D2796A3FF54.png)
+
+2、开始帧
+![](https://ch15hu1.github.io/images/390900F81C05338ACC5E71B499B2A854.png)
+
+3、构建 UI
+![](https://ch15hu1.github.io/images/195C8B711063BDBFFB5368C455668072.png)
+
+4、结束并且开始渲染这一帧
+![](https://ch15hu1.github.io/images/4CC7A0092B2BB3AC4CBF42CC5D1D1322.png)
+
+**注意**：Multi-Viewport 下包含对多个独立操作系统窗口的绘制
+![](https://ch15hu1.github.io/images/8E9209576A518F17ABD01830236AB927.png)
+
+## 2 - 文字
+```text
+WinMain 入口
+    │
+    ├─ 1. DPI 感知 & 缩放获取
+    ├─ 2. 创建 Win32 窗口
+    ├─ 3. 初始化 Direct3D 11（CreateDeviceD3D）
+    ├─ 4. 显示窗口（ShowWindow）
+    ├─ 5. 创建 ImGui 上下文，设置配置标志（键盘、停靠、多视口）
+    ├─ 6. 设置 ImGui 样式（Classic），缩放
+    ├─ 7. 初始化 ImGui 后端（Win32 + DX11）
+    ├─ 8. （可选）加载字体
+    │
+    ├─ 进入主循环 while (!done)
+    │   │
+    │   ├─ 9. 消息泵（PeekMessage / DispatchMessage）
+    │   │      └─ 收到 WM_QUIT → done = true
+    │   │
+    │   ├─ 10. 处理窗口最小化或屏幕锁定（g_SwapChainOccluded）
+    │   │
+    │   ├─ 11. 处理窗口尺寸变化（ResizeBuffers）
+    │   │
+    │   ├─ 12. 开始 ImGui 帧（三连调用）
+    │   │      ├─ ImGui_ImplDX11_NewFrame()   // 更新渲染资源
+    │   │      ├─ ImGui_ImplWin32_NewFrame()  // 收集输入消息
+    │   │      └─ ImGui::NewFrame()           // 清空绘制列表
+    │   │
+    │   ├─ 13. 构建 UI（你的业务代码）
+    │   │      ├─ SetNextWindowPos / Size / Constraints
+    │   │      ├─ ImGui::Begin("Main Window!")
+    │   │      ├─ ImGui::IsWindowFocused()
+    │   │      └─ ImGui::End()
+    │   │      └─ 若窗口关闭（showMainwindow == false）→ done = true
+    │   │
+    │   ├─ 14. 渲染帧
+    │   │      ├─ ImGui::Render()                    // 生成绘制命令
+    │   │      ├─ 清除 RenderTarget
+    │   │      ├─ ImGui_ImplDX11_RenderDrawData()   // 执行绘制
+    │   │      └─ 若启用多视口：
+    │   │          ├─ ImGui::UpdatePlatformWindows()
+    │   │          └─ ImGui::RenderPlatformWindowsDefault()
+    │   │
+    │   └─ 15. Present（交换链呈现）
+    │          └─ g_pSwapChain->Present(1, 0)  // 垂直同步
+    │
+    └─ 16. 退出主循环，清理资源
+           ├─ ImGui_ImplDX11_Shutdown()
+           ├─ ImGui_ImplWin32_Shutdown()
+           ├─ ImGui::DestroyContext()
+           ├─ CleanupDeviceD3D()
+           ├─ DestroyWindow / UnregisterClass
+           └─ return 0
+```
