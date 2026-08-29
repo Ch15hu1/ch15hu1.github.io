@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "02 - Hello ImGui"
+title:  "002 - Hello ImGui"
 date: 2026-08-29 15:33:55 +0800
 categories: IMGUI
 ---
