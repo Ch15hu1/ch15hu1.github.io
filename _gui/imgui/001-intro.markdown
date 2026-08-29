@@ -77,13 +77,13 @@ PS D:\C++Library\imgui
 ```
 
 imgui\examples 下有一个项目文件
-![](A67724B5D4424BD3BF93535860B8DB99.png)
+![](https://ch15hu1.github.io/images/A67724B5D4424BD3BF93535860B8DB99.png)
 
 打开后右键 Solution，选择 Retarget solution
-![](D13A71C997672D5CD4CE593B280E57B3.png)
+![](https://ch15hu1.github.io/images/D13A71C997672D5CD4CE593B280E57B3.png)
 
 更改项目 SDK
-![](6369D109FDFC0A1A1902E6558F93025A.png)
+![](https://ch15hu1.github.io/images/6369D109FDFC0A1A1902E6558F93025A.png)
 
 然后就可以编译运行了，这个 Demo Window 有所有需要的控件教学。
-![](BB270DF8B5CF1A21BFCF15913A98BEEB.png)
+![](https://ch15hu1.github.io/images/BB270DF8B5CF1A21BFCF15913A98BEEB.png)
