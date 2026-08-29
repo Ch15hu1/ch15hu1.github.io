@@ -498,8 +498,6 @@ ImGui::NewFrame();          // 清空上一帧的绘制列表，准备开始记�
 ```
 
 最基本的一个窗口要有 `ImGui::Begin` 和 `ImGui::End()`
-![](https://ch15hu1.github.io/images/1576B52CDEE79EB4922591EA4FA1114B.png)
-
 ![](https://ch15hu1.github.io/images/B2B10973A9BD69204C80F1B9F9185195.png)
 
 
