@@ -45,6 +45,10 @@ collections:
   reverse:
     output: true
     permalink: /reverse/:path/
+  gui:
+    output: true
+    permalink: /gui/:path/
+
 
 # Exclude from processing.
 # The following items will not be processed, by default.
