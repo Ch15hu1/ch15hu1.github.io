@@ -48,7 +48,7 @@ IMGUI 有很多版本，我要学习 docking。
 | **WGPU / SDL_gpu** | ⭐⭐⭐  | ⭐⭐⭐  | Windows、Linux、macOS、Web（跨平台，基于 WebGPU） |
 
 ## 配置环境
-编译器：VSCode
+编译器：VS 2026
 
 安装库
 ```powershell
