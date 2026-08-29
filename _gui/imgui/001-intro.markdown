@@ -40,7 +40,7 @@ IMGUI 有很多版本，我要学习 docking。
 | 图形 API | 性能层级 | 复杂度 | 支持平台 |
 | :--- | :--- | :--- | :--- |
 | **DirectX 11** | ⭐⭐⭐  | ⭐  | Windows（7 ~ 11） |
-| **DirectX 12** | ⭐⭐⭐⭐⭐  | ⭐⭐⭐⭐⭐ 极难 | Windows 10+ |
+| **DirectX 12** | ⭐⭐⭐⭐⭐  | ⭐⭐⭐⭐⭐ | Windows 10+ |
 | **DirectX 9 / 10** | ⭐⭐  | ⭐  | Windows（含 XP） |
 | **OpenGL 3** | ⭐⭐⭐  | ⭐⭐  | Windows、Linux、macOS 等（跨平台） |
 | **Vulkan** | ⭐⭐⭐⭐⭐  | ⭐⭐⭐⭐  | Windows、Linux、Android、macOS（通过 MoltenVK） |
