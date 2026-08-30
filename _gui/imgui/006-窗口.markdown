@@ -1,0 +1,369 @@
+---
+layout: post
+title:  "006 - 窗口"
+date: 2026-08-30 13:34:32 +0800
+categories: IMGUI
+---
+
+## 01 - Begin()
+```cpp
+bool ImGui::Begin(const char* name, bool* p_open, ImGuiWindowFlags flags)
+```
+`name`: 窗口标题
+`p_open`: 窗口显示状态的 bool。用户点击关闭按钮后，该变量会被设置为 false。
+`flags`: 窗口行为标志，下列**应该是**所有的可以设置的标志
+- `ImGuiWindowFlags_None`: 默认值，没有特殊行为。
+- `ImGuiWindowFlags_NoTitleBar`: 禁用标题栏
+- `ImGuiWindowFlags_NoResize`: 禁止用户拖拽调整窗口大小
+- `ImGuiWindowFlags_NoMove`: 禁止用户拖动标题栏移动位置
+- `ImGuiWindowFlags_NoScrollbar`: 隐藏滚动条，可通过鼠标滚轮或编程方式滚动
+- `ImGuiWindowFlags_NoScrollWithMouse`: 禁用鼠标滚轮滚动
+- `ImGuiWindowFlags_NoCollapse`: 隐藏左上角的折叠箭头，禁止窗口折叠（三角形）
+- `ImGuiWindowFlags_AlwaysAutoResize`: 始终自动调整大小
+- `ImGuiWindowFlags_NoBackground`: 禁用背景
+- `ImGuiWindowFlags_NoSavedSettings`: 窗口位置、大小等状态不保存到 .ini 文件中
+- `ImGuiWindowFlags_NoMouseInputs`: 禁用鼠标输入
+- `ImGuiWindowFlags_MenuBar`: 启用菜单栏
+- `ImGuiWindowFlags_HorizontalScrollbar`: 启用水平滚动条
+- `ImGuiWindowFlags_NoFocusOnAppearing`: 出现时不获取焦点
+- `ImGuiWindowFlags_NoBringToFrontOnFocus`: 获取焦点时不会显示到所有窗口的最前面
+- `ImGuiWindowFlags_AlwaysVerticalScrollbar`: 始终显示垂直滚动条
+- `ImGuiWindowFlags_AlwaysHorizontalScrollbar`: 始终显示水平滚动条
+- `ImGuiWindowFlags_AlwaysUseWindowPadding`: 始终使用窗口内边距
+- `ImGuiWindowFlags_NoNavInputs`: 禁用导航输入
+- `ImGuiWindowFlags_NoNavFocus`: 禁用导航焦点
+- `ImGuiWindowFlags_UnsavedDocument`: 在标题旁显示一个点，表示有未保存的更改。
+- `ImGuiWindowFlags_NoNav`: 等于 `NoNavInputs` 和 `NoNavFocus`
+- `ImGuiWindowFlags_NoDecoration`: 等于 `NoTitleBar`、`NoResize`、`NoScrollbar` 和 `NoCollapse` 
+- `ImGuiWindowFlags_NoInputs`: 等于 `NoMouseInputs`、`NoNavInputs` 和 `NoNavFocus`
+
+返回 `false` 表示当前窗口的内容区域不应被绘制，例如窗口处于折叠状态或被完全裁剪。
+
+<br>
+
+可以这样使用。
+```cpp
+      static bool showOtherWindow = true;
+      if (ImGui::Begin("Other Window", &showOtherWindow)) {
+        ImGui::Text("ABC");
+      }
+      ImGui::End();
+```
+### 1 - 主要窗口可以这样设置
+关闭主窗口就让 Main loop 结束。
+```cpp
+    // 一个简单的 IMGUI 窗口
+    {
+      static bool show_window = true;
+      if (show_window) {
+        ImGui::Begin("Hello, IMGUI!", &show_window);
+        ImGui::Text("This is some useful text.");
+        ImGui::End();
+      } else {
+        // 跳出Main loop，结束程序
+        done = true;
+      }
+    }
+```
+### 2 - 禁止窗口折叠
+前面已经说过了，`ImGuiWindowFlags_NoCollapse` 可以实现
+![](https://ch15hu1.github.io/images/C1B4542BC4649AC8C6BB8FA84EB8B5D4.png)
+
+## 02 - End()
+只要 `ImGui::Begin()` 被调用了，就必须也调用 `ImGui::End()`
+
+## 03 - 设置窗口大小
+```cpp
+void ImGui::SetNextWindowSize(const ImVec2& size, ImGuiCond cond)
+```
+`size`: 窗口的大小 (Width，Height)
+`cond`: 之间不能组合。
+ - `ImGuiCond_None`: 等同于 `ImGuiCond_Always`
+ - `ImGuiCond_Always`: 每次都应用
+ - `ImGuiCond_Once`: 只有第一次调用会生效，第二次就不生效了。
+ - `ImGuiCond_FirstUseEver`: imgui.ini 没有这个窗口信息才会生效
+ - `ImGuiCond_Appearing`: 当窗口从隐藏或非活跃状态变为可见时生效
+
+<br>
+
+设置下一个窗口的大小，如果 imgui.ini 有这个窗口的大小就不设置 `ImVec2(800, 600)` 了
+```cpp
+ImGui::SetNextWindowSize(ImVec2(800, 600), ImGuiCond_FirstUseEver);
+```
+![](https://ch15hu1.github.io/images/D7C73E3BC00A569BF4E8DB7589D5BE5A.png)
+
+## 04 - 设置窗口出现的位置
+```cpp
+void ImGui::SetNextWindowPos(
+    const ImVec2& pos,        // ① 位置坐标 (X, Y)
+    ImGuiCond cond = 0,       // ② 生效规则 (何时覆盖用户操作)
+    const ImVec2& pivot = ImVec2(0, 0) // ③ 锚点 (pos 指的是窗口的哪个点)
+);
+```
+`pos`: 窗口位置坐标
+`cond`: 和**设置窗口大小**的cond参数一样
+`pivot`: 窗口的那个部位对准 post
+- `(0, 0)` 	 左上角（默认）
+- `(0.5, 0)`	 顶部中心
+- `(0, 0.5)`	 左侧中心
+- `(0.5, 0.5)`	 正中心
+- `(1, 1)`	     右下角
+- `(0, 1)`	     左下角
+- `(1, 0)`	     右上角
+
+<br>
+
+```cpp
+// 获取主视口尺寸（支持多屏和高 DPI）
+ImGuiViewport* viewport = ImGui::GetMainViewport();
+
+// 设置位置：屏幕中心点
+ImGui::SetNextWindowPos(
+    ImVec2(viewport->WorkPos.x + viewport->WorkSize.x * 0.5f,  // 中心 X
+           viewport->WorkPos.y + viewport->WorkSize.y * 0.5f), // 中心 Y
+    ImGuiCond_FirstUseEver,  // 只有初次使用才居中（尊重用户后续拖拽）
+    ImVec2(0.5f, 0.5f)       // 锚点在窗口中心 -> 窗口完美居中
+);
+```
+
+## 05 - 限制下一个窗口的尺寸范围
+可以设置下一个窗口的尺寸最小是多少，最大是多大。
+```cpp
+void SetNextWindowSizeConstraints(
+    const ImVec2& size_min,              // 最小尺寸
+    const ImVec2& size_max,              // 最大尺寸
+    ImGuiSizeCallback custom_callback = NULL,  // (可选) 自定义回调
+    void* custom_callback_data = NULL          // (可选) 回调数据
+);
+```
+`size_min`: 窗口的最小尺寸
+`size_max`: 窗口的最大尺寸
+`custom_callback`: 当窗口发生变化时回调这个函数。
+`custom_callback_data`: 向回调函数传递自定义数据
+
+<br>
+
+```cpp
+// 在调用 Begin 之前设置
+ImGui::SetNextWindowSizeConstraints(ImVec2(400.f, 300.f), ImVec2(1000.f, 700.f));
+ImGui::Begin("我的固定比例窗口");
+// ...
+ImGui::End();
+```
+## 06 - 获得窗口的大小
+```cpp
+ImVec2 ImGui::GetWindowSize(); // 返回当前窗口的尺寸[reference:2]
+```
+必须在 `ImGui::Begin()` 和 `ImGui::End()` 之间才可以使用
+![](https://ch15hu1.github.io/images/14CC0D8E7BE16EC0C799F4F796CF8BD1.png)
+
+## 07 - 获取当前窗口的宽/获取当前窗口的高
+```cpp
+ImGui::GetWindowWidth();    // 等同于 GetWindowSize().x
+ImGui::GetWindowHeight();   // 等同于 GetWindowSize().y
+```
+必须在 `ImGui::Begin()` 和 `ImGui::End()` 之间才可以使用
+![](https://ch15hu1.github.io/images/E443D687C626F81E722E918717745A32.png)
+## 08 - 获取当前窗口位置
+```
+ImVec2 ImGui::GetWindowPos();    // 返回当前窗口的位置
+```
+必须在 `ImGui::Begin()` 和 `ImGui::End()` 之间才可以使用
+![](https://ch15hu1.github.io/images/89DB2D7D2C47F59467C38448D9F83B5D.png)
+## 09 - 窗口 ID
+### 1 - `##`
+如果需要有重复的窗口名称，在窗口名称后面加 `##1`、`##2`、`...` 就好了
+```cpp
+      static bool showOtherWindow = true;
+      if (ImGui::Begin("Other Window##1", &showOtherWindow)) {
+        ImGui::Text("ABC");
+      }
+      ImGui::End();
+
+      static bool showOtherWindow2 = true;
+      if (ImGui::Begin("Other Window##2", &showOtherWindow2)) {
+        ImGui::Text("ABC");
+      }
+      ImGui::End();
+```
+![](https://ch15hu1.github.io/images/9E469E019E5444B4CA536078287B5B29.png)
+### 2 - `###`
+`###` 是用来分离窗口的显示标签和唯一标识符（ID）
+
+<br>
+
+如何让两个窗口在标题栏上显示不同的文字，但共用同一个 ID（从而共享状态）
+或者反过来，显示相同的文字，但拥有不同的 ID（避免冲突）。
+
+<br>
+
+使用场景：
+- 多个窗口标题相同，但需要独立（`"相同标题###不同ID"`）
+- 多个窗口标题不同，但需要共享状态（`不同标题###相同ID`）
+
+<br>
+
+```cpp
+// 两个窗口实际上是同一个，ID 都是 "MyControlWindow"
+ImGui::Begin("控制面板###MyControlWindow");
+ImGui::End();
+
+ImGui::Begin("设置###MyControlWindow");
+ImGui::End();
+
+
+// 两个窗口实际上是同一个，ID 都是 "MyControlWindow"
+ImGui::Begin("控制面板###MyControlWindow");
+ImGui::End();
+
+ImGui::Begin("设置###MyControlWindow");
+ImGui::End();
+```
+
+可以看到就虽然有两个 `Begin/End` 但是就是一个窗口，控件也是共有的。
+![](https://ch15hu1.github.io/images/6903CE98E8A98BD61D400CEF3AABCFF0.png)
+### 3 - `##` 和 `###` 区别
+
+| 写法            | 显示   | ID        |
+| --------------- | ----- | ---------- |
+| `"Hello"`       | Hello | Hello      |
+| `"Hello##123"`  | Hello | Hello##123 |
+| `"Hello###123"` | Hello | 123        |
+
+## 10 - Window Focus
+ImGui 在内部维护着一个“焦点窗口”的概念，通常由全局变量 `g.NavWindow` 指向。
+### 1 - IsWindowFocused()
+查询当前窗口焦点状态。
+```cpp
+// 返回当前窗口是否获得焦点
+bool ImGui::IsWindowFocused(ImGuiFocusedFlags flags)
+```
+`flags` 参数：
+- `ImGuiFocusedFlags_None`: **默认行为**。仅当当前窗口本身获得焦点时返回 `true`。 
+- `ImGuiFocusedFlags_ChildWindows`: 如果当前窗口**或其任何子窗口**获得焦点，则返回 `true`。 
+- `ImGuiFocusedFlags_RootWindow`: 从**根窗口**（顶级父窗口）的角度进行测试，忽略子窗口层级。 
+- `ImGuiFocusedFlags_AnyWindow`: 如果**任何** ImGui 窗口获得焦点，则返回 `true`。 
+- `ImGuiFocusedFlags_NoPopupHierarchy`: **忽略弹出窗口层级**（自动应用 `RootWindow` 的行为）。 
+- `ImGuiFocusedFlags_DockHierarchy`: **考虑停靠层级**，在停靠系统中正确判断焦点归属。 
+
+<br>
+
+当一个窗口获取焦点一个窗口就会失去焦点。
+![](https://ch15hu1.github.io/images/15DF3931C01BEF8861A1DD1338625AE2.png)
+### 2 - SetWindowFocus()
+立即将指定名称的窗口置顶并赋予焦点。
+
+有两个版本。
+```cpp
+// 1. 操作当前窗口
+IMGUI_API void SetWindowFocus();
+
+// 2. 通过窗口名称/窗口 ID 字符串指定窗口。
+IMGUI_API void SetWindowFocus(const char* name);
+```
+
+示例：
+```cpp
+// 在任意代码位置，将名为 "MyWindow" 的窗口置顶并聚焦
+ImGui::SetWindowFocus("MyWindow");
+
+// 清除所有窗口的焦点
+ImGui::SetWindowFocus(NULL);
+
+// 在另一个窗口的 Begin/End 块内，聚焦自身
+ImGui::Begin("Another Window");
+// ...
+ImGui::SetWindowFocus(); // 将 "Another Window" 聚焦
+ImGui::End();
+```
+
+<br>
+
+程序启动默认聚焦在 `Test` 窗口，可以设置指定 `Main Window!`
+![](https://ch15hu1.github.io/images/08AD26333C0D7C970FCCE76A8930950F.png)
+### 3 - SetNextWindowFocus()
+设置下一个窗口获得焦点
+```cpp
+IMGUI_API void SetNextWindowFocus();
+```
+
+<br>
+
+示例：
+```cpp
+// 在窗口创建或显示前调用
+ImGui::SetNextWindowFocus();
+
+// 紧接着创建窗口，该窗口将获得焦点
+ImGui::Begin("My Important Window", &my_tool_open);
+// ... 窗口内容 ...
+ImGui::End();
+```
+
+使用 `SetNextWindowFocus()` 也行
+![](https://ch15hu1.github.io/images/AC490C1DBB6D27E8924060BA023E076E.png)
+## 11 - 窗口折叠
+### 1 - 查询当前窗口是否处于折叠状态
+```cpp
+IMGUI_API bool IsWindowCollapsed() const;
+```
+
+<br>
+
+折叠起来就是 `true`，注意 `collapsed` 要定义在主循环外。 
+![](https://ch15hu1.github.io/images/986BFCDF97B4C4967DB9235AF8BCF39E.png)
+### 2 - 预设下一个窗口折叠状态
+可以设下一个窗口折叠状态
+```cpp
+IMGUI_API void SetNextWindowCollapsed(bool collapsed, ImGuiCond cond = 0);
+```
+
+<br>
+
+第一启动设置这个窗口是没有折叠的。
+![](https://ch15hu1.github.io/images/178474A422B92ACD378317A0ADC4572B.png)
+
+### 3 - 立即设置指定名称窗口的折叠状态
+```cpp
+IMGUI_API void SetWindowCollapsed(const char* name, bool collapsed, ImGuiCond cond = 0);
+```
+
+<br>
+
+设置第一次默认折叠，后续根基 imgui.ini 状态
+![](https://ch15hu1.github.io/images/E2D0C8D9DAD62F6F0296B131834C8746.png)
+
+### 4 - 立即设置当前窗口的折叠状态
+```cpp
+IMGUI_API void SetWindowCollapsed(bool collapsed, ImGuiCond cond = 0);
+```
+
+<br>
+
+让这个窗口不允许折叠起来（使用 ImGuiWindowFlags_NoCollapse 也行） 
+![](https://ch15hu1.github.io/images/3F311D3E92B894B8E6CD2B3DED21DA96.png)
+## 12 - Multi-Viewport 和 Docking
+Multi-Viewport 赋予了 ImGui 窗口脱离 Win32 程序窗口，成为原生独立窗口的能力。
+
+Docking 功能让用户能像在 Visual Studio 中一样，自由地将窗口拖拽、停靠、组合成标签页或拆分视图。
+## 13 - 总结
+
+| 函数名 | 功能描述 |
+| :--- | :--- |
+| `ImGui::Begin(name, p_open, flags)` | 开始一个窗口，返回 `false` 表示窗口被折叠或完全裁剪 |
+| `ImGui::End()` | 结束当前窗口（与 `Begin` 成对使用） |
+| `ImGui::GetWindowPos()` | 返回当前窗口的位置（`ImVec2`） |
+| `ImGui::SetNextWindowPos(pos, cond, pivot)` | 设置下一帧窗口的初始位置（支持锚点） |
+| `ImGui::SetNextWindowSize(size, cond)` | 设置下一帧窗口的初始尺寸 |
+| `ImGui::SetNextWindowSizeConstraints(min, max, callback, data)` | 限制下一帧窗口的可调整尺寸范围（带可选回调） |
+| `ImGui::GetWindowSize()` | 返回当前窗口的尺寸（`ImVec2`） |
+| `ImGui::GetWindowWidth()` | 返回当前窗口的宽度（浮点数） |
+| `ImGui::GetWindowHeight()` | 返回当前窗口的高度（浮点数） |
+| `ImGui::IsWindowFocused(flags)` | 查询当前窗口是否获得焦点（支持层级检测） |
+| `ImGui::SetNextWindowFocus()` | 使下一帧创建的窗口获得焦点（推荐使用） |
+| `ImGui::SetWindowFocus()` | 立即将当前窗口置顶并赋予焦点 |
+| `ImGui::SetWindowFocus(name)` | 立即将指定名称的窗口置顶并赋予焦点（推荐） |
+| `ImGui::IsWindowCollapsed()` | 查询当前窗口是否处于折叠状态 |
+| `ImGui::SetNextWindowCollapsed(collapsed, cond)` | 设置下一帧窗口的折叠状态（推荐使用） |
+| `ImGui::SetWindowCollapsed(collapsed, cond)` | 立即设置当前窗口的折叠状态 |
+| `ImGui::SetWindowCollapsed(name, collapsed, cond)` | 立即设置指定名称窗口的折叠状态 |

@@ -8,6 +8,10 @@
 
 @include theme();
 
+p {
+  margin-bottom: 0;
+}
+
 img {
   max-width: 100%;
   height: auto;
@@ -15,6 +19,24 @@ img {
 
 main img {
   cursor: zoom-in;
+}
+
+.post-content ul {
+  list-style: none;
+  padding-left: 1.5em;
+}
+
+.post-content ul ul {
+  padding-left: 1.5em;
+}
+
+.post-content ul > li:before {
+  content: "-";
+  margin-right: 9px;
+}
+
+.post-content ol {
+  padding-left: 1.5em;
 }
 
 pre {
@@ -114,19 +136,16 @@ h6 {
 .post-content h2 {
   font-size: 1.5em;
   margin-top: 1.8em;
-  margin-bottom: 0.8em;
 }
 
 .post-content h3 {
   font-size: 1.25em;
   margin-top: 1.5em;
-  margin-bottom: 0.6em;
 }
 
 .post-content h4 {
   font-size: 1.1em;
   margin-top: 1.3em;
-  margin-bottom: 0.5em;
 }
 
 .post-content h5 {
