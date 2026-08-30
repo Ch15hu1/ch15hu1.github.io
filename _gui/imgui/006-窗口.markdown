@@ -126,6 +126,11 @@ ImGui::SetNextWindowPos(
 );
 ```
 
+<br>
+
+最开始确实在中心的后面我需要修改位置
+![](https://ch15hu1.github.io/images/B08B120CDFA8B024249DABA96DEDFE9E.png)
+
 ## 05 - 限制下一个窗口的尺寸范围
 可以设置下一个窗口的尺寸最小是多少，最大是多大。
 ```cpp
@@ -150,10 +155,19 @@ ImGui::Begin("我的固定比例窗口");
 // ...
 ImGui::End();
 ```
+
+<br>
+
+设置最小最大范围是 `ImVec2(400.f, 300.f), ImVec2(1000.f, 700.f)`
+![](https://ch15hu1.github.io/images/D9A16635A95588CEA6165F204626C2EF.png)
+
 ## 06 - 获得窗口的大小
 ```cpp
-ImVec2 ImGui::GetWindowSize(); // 返回当前窗口的尺寸[reference:2]
+ImVec2 ImGui::GetWindowSize(); // 返回当前窗口的尺寸
 ```
+
+<br>
+
 必须在 `ImGui::Begin()` 和 `ImGui::End()` 之间才可以使用
 ![](https://ch15hu1.github.io/images/14CC0D8E7BE16EC0C799F4F796CF8BD1.png)
 
@@ -162,14 +176,21 @@ ImVec2 ImGui::GetWindowSize(); // 返回当前窗口的尺寸[reference:2]
 ImGui::GetWindowWidth();    // 等同于 GetWindowSize().x
 ImGui::GetWindowHeight();   // 等同于 GetWindowSize().y
 ```
+
+<br>
+
 必须在 `ImGui::Begin()` 和 `ImGui::End()` 之间才可以使用
 ![](https://ch15hu1.github.io/images/E443D687C626F81E722E918717745A32.png)
 ## 08 - 获取当前窗口位置
 ```
 ImVec2 ImGui::GetWindowPos();    // 返回当前窗口的位置
 ```
+
+<br>
+
 必须在 `ImGui::Begin()` 和 `ImGui::End()` 之间才可以使用
 ![](https://ch15hu1.github.io/images/89DB2D7D2C47F59467C38448D9F83B5D.png)
+
 ## 09 - 窗口 ID
 ### 1 - `##`
 如果需要有重复的窗口名称，在窗口名称后面加 `##1`、`##2`、`...` 就好了
