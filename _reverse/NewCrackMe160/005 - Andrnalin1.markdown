@@ -10,18 +10,23 @@ categories: NewCrackMe160
 2、压缩包名：Andrnalin.1.zip
 3、编程语言：Microsoft Visual Basic 5.0 
 4、星级评定：算 法：★  爆 破：★ 
+
 ## 查壳
 ![](https://ch15hu1.github.io/images/BE4B198539B14415A0FC89C9E4110FC6.png)
+
 ## 界面
 有一个 Ok 按钮
 ![](https://ch15hu1.github.io/images/74C56EC864FCBB3C5F3A55495E2D6D6C.png)
 
+<br>
 错误信息
 ![](https://ch15hu1.github.io/images/40759D7D308C16E91B856AB7E6BDA1CD.png)
 
 ## 开逆
 搜索字符串
 ![](https://ch15hu1.github.io/images/E04C395253FBE14E2725C78826DBCC9A.png)
+
+搜索到的字符串
 ![](https://ch15hu1.github.io/images/226A46014B3347D7AC41BA2BA043B07C.png)
 
 不让他跳转就能运行到这里了
@@ -40,7 +45,6 @@ categories: NewCrackMe160
 
 在往上就是一个对比函数
 ![](https://ch15hu1.github.io/images/A6F4256FCE06847C36D4892316CF7799.png)
-
 
 对比 SynTaX 2oo1 字符串。
 ![](https://ch15hu1.github.io/images/135167552356AB9207B70A48D90428DC.png)
